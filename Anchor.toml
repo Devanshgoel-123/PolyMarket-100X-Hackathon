@@ -5,7 +5,7 @@ resolution = true
 skip-lint = false
 seeds=true
 [programs.localnet]
-polymarket = "HSz3AezvmqLYVrpUFPbKf8yMLs2tVs1pDh6juqGGmvrC"
+polymarket = "8AFtVMxdjwHrLJuFt3FTCHwuYbXUAqpBeDhdTtEcyqm2"
 
 [registry]
 url = "https://api.apr.dev"

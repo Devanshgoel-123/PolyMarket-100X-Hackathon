@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-use solana_program::pubkey::Pubkey;
 
 pub const MARKET_AUTH: &str = "market authority";
 pub const MARKET_STATE: &str = "state";

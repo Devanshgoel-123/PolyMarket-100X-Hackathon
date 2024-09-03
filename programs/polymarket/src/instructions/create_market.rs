@@ -1,14 +1,15 @@
-use anchor_lang::{prelude::*, solana_program::stake::instruction};
+use anchor_lang::prelude::*;
+use anchor_spl::token::{Mint, TokenAccount};
 use std::mem::size_of;
 use {crate::state::*, anchor_spl::*};
 pub fn create_market(ctx: Context<InitializeMarket>, marketname: String) -> Result<()> {
     let market_state = &mut ctx.accounts.market_state;
     market_state.marketname = marketname;
-    market_state.authority = ctx.accounts.marketauthority.key();
-    market_state.token_mint = ctx.accounts.token_mint_betting.key();
+    market_state.authority = ctx.accounts.market_authority.key();
+    market_state.token_mint = ctx.accounts.token_mint.key();
     market_state.betArray = vec![];
     market_state.totalBets = 0;
-    market_state.market_authority_bump = ctx.bumps.marketauthority;
+    market_state.market_authority_bump = ctx.bumps.market_authority;
     market_state.market_state_bump = ctx.bumps.market_state;
     market_state.market_vault_bump = ctx.bumps.market_vault;
     market_state.creator = ctx.accounts.payer.key();
@@ -17,7 +18,7 @@ pub fn create_market(ctx: Context<InitializeMarket>, marketname: String) -> Resu
 }
 
 #[derive(Accounts)]
-#[instructio(marketname:String)]
+#[instruction(marketname:String)]
 pub struct InitializeMarket<'info> {
     /// CHECK: PDA, auth over all token vaults
     #[account(
@@ -39,9 +40,9 @@ pub struct InitializeMarket<'info> {
     )]
     pub token_mint: Account<'info, Mint>,
     #[account(
-        init,
+        init,//Creates the account if it doesnt alreeady doesnt exist
         payer=payer,
-        seeds=[marketname.as_bytes(),],
+        seeds=[marketname.as_bytes(),token_mint.key().as_ref()],
         bump,
         token::mint=token_mint,
         token::authority=market_authority,
