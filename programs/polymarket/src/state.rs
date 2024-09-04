@@ -3,7 +3,8 @@ use anchor_lang::prelude::*;
 pub const MARKET_AUTH: &str = "market authority";
 pub const MARKET_STATE: &str = "state";
 pub const MARKET_VAULT: &str = "vault";
-pub const CENTRAL_TOKEN_MINT: &str = "central token mint";
+pub const CENTRAL_TOKEN_MINT: &str = "central_token_mint";
+pub const CENTRAL_TOKEN_MINT_VAULT: &str = "central_token_mint_vault";
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug, PartialEq, Eq)]
 pub enum BetStatus {

@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{Mint, TokenAccount};
 use std::mem::size_of;
 use {crate::state::*, anchor_spl::*};
 pub fn create_market(ctx: Context<InitializeMarket>, marketname: String) -> Result<()> {
@@ -38,7 +37,7 @@ pub struct InitializeMarket<'info> {
         seeds=[CENTRAL_TOKEN_MINT.as_bytes()],
         bump
     )]
-    pub token_mint: Account<'info, Mint>,
+    pub token_mint: InterfaceAccount<'info, token_interface::Mint>,
     #[account(
         init,//Creates the account if it doesnt alreeady doesnt exist
         payer=payer,

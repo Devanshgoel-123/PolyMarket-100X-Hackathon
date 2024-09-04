@@ -3,9 +3,10 @@
 [features]
 resolution = true
 skip-lint = false
-seeds=true
+seeds = true
+
 [programs.localnet]
-polymarket = "8AFtVMxdjwHrLJuFt3FTCHwuYbXUAqpBeDhdTtEcyqm2"
+polymarket = "B73FqiLsiHmCPt17LmTdP5iKKfr1K28RkUUrgqGSK8Cg"
 
 [registry]
 url = "https://api.apr.dev"
