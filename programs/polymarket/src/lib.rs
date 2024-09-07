@@ -2,7 +2,7 @@ pub mod instructions;
 use anchor_lang::prelude::*;
 use instructions::*;
 pub mod state;
-declare_id!("B73FqiLsiHmCPt17LmTdP5iKKfr1K28RkUUrgqGSK8Cg");
+declare_id!("BEAARYAudpWhoLTmgCzt3Eh6afy5y6JjmPbBWLV3GifJ");
 
 #[program]
 pub mod polymarket {
