@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-pub const MARKET_AUTH: &str = "market authority";
+pub const MARKET_AUTH: &str = "market_authority";
 pub const MARKET_STATE: &str = "state";
 pub const MARKET_VAULT: &str = "vault";
 pub const CENTRAL_TOKEN_MINT: &str = "central_token_mint";
@@ -36,8 +36,8 @@ pub struct Bet {
     pub betOutcomes: Vec<bool>,
     pub totalStake: u64,
     pub betMarket: String,
-    pub betCreatedAt: String,
-    pub betEndTime: String,
+    // pub betCreatedAt: String,
+    // pub betEndTime: String,
     pub betCreator: Pubkey,
     pub token_mint: Pubkey,
     pub users: Vec<Pubkey>,

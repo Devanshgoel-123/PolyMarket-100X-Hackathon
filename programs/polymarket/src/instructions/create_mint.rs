@@ -14,28 +14,33 @@ pub fn create_central_mint(ctx: Context<InitializeCentralMint>) -> Result<()> {
     msg!("Mint Address: {}", ctx.accounts.token_mint.key());
     msg!("Vault Address: {}", ctx.accounts.token_vault.key());
 
-    // if mint_account_data[0] != 0 {
-    //     return Err(ProgramError::AccountAlreadyInitialized.into());
-    // }
-    // // Initialize the mint account
-    // let cpi_accounts = InitializeMint {
-    //     mint: ctx.accounts.token_mint.to_account_info(),
-    //     rent: ctx.accounts.rent.to_account_info(),
-    // };
-    // let cpi_program = ctx.accounts.token_program.to_account_info();
-    // let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-    // initialize_mint(cpi_ctx, 9, ctx.accounts.payer.key, None)?;
-    // let info=createTramsh
+    // Initialize the mint account
+    if ctx.accounts.token_mint.to_account_info().data_is_empty() {
+        let cpi_accounts = InitializeMint {
+            mint: ctx.accounts.token_mint.to_account_info(),
+            rent: ctx.accounts.rent.to_account_info(),
+        };
+        let cpi_program = ctx.accounts.token_program.to_account_info();
+        let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
+        initialize_mint(cpi_ctx, 9, &ctx.accounts.payer.key(), None)?;
+    } else {
+        msg!("Mint account already initialized.");
+    }
+
     // Initialize the vault account
-    // let cpi_vault_accounts = InitializeAccount {
-    //     account: ctx.accounts.token_vault.to_account_info(),
-    //     mint: ctx.accounts.token_mint.to_account_info(),
-    //     authority: ctx.accounts.payer.to_account_info(),
-    //     rent: ctx.accounts.rent.to_account_info(),
-    // };
-    // let cpi_vault_program = ctx.accounts.token_program.to_account_info();
-    // let cpi_vault_ctx = CpiContext::new(cpi_vault_program, cpi_vault_accounts);
-    // initialize_account(cpi_vault_ctx)?;
+    if ctx.accounts.token_vault.to_account_info().data_is_empty() {
+        let cpi_vault_accounts = InitializeAccount {
+            account: ctx.accounts.token_vault.to_account_info(),
+            mint: ctx.accounts.token_mint.to_account_info(),
+            authority: ctx.accounts.payer.to_account_info(),
+            rent: ctx.accounts.rent.to_account_info(),
+        };
+        let cpi_vault_program = ctx.accounts.token_program.to_account_info();
+        let cpi_vault_ctx = CpiContext::new(cpi_vault_program, cpi_vault_accounts);
+        initialize_account(cpi_vault_ctx)?;
+    } else {
+        msg!("Token vault already initialized.");
+    }
 
     let cpi_program = ctx.accounts.token_program.to_account_info();
     let cpi_accounts = MintTo {
@@ -46,7 +51,7 @@ pub fn create_central_mint(ctx: Context<InitializeCentralMint>) -> Result<()> {
     let cpi_context = CpiContext::new(cpi_program, cpi_accounts);
     mint_to(cpi_context, 10000)?;
     let mint_info = ctx.accounts.token_mint.supply;
-    msg!("The amount od token is : {}", mint_info);
+    msg!("The amount of token is : {}", mint_info);
     Ok(())
 }
 

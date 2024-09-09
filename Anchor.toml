@@ -6,7 +6,7 @@ skip-lint = false
 seeds = true
 
 [programs.localnet]
-polymarket = "BEAARYAudpWhoLTmgCzt3Eh6afy5y6JjmPbBWLV3GifJ"
+polymarket = "39nz8NqJhAwvpwXJGakf7oZQzyUHZhMNoWSE8nBPdzvR"
 
 [registry]
 url = "https://api.apr.dev"
