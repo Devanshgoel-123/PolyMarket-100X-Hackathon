@@ -15,7 +15,7 @@ pub fn create_bet(
     bet_state.betTitle = bet_title;
     bet_state.betDescription = bet_description;
     bet_state.betStatus = BetStatus::Active;
-    bet_state.betId = bet_state.betId.checked_add(1).unwrap();
+    bet_state.betId = market_state.totalBets;
     bet_state.betOutcomes = vec![true, false];
     bet_state.totalStake = 0;
     bet_state.betMarket = market_name;
@@ -46,7 +46,7 @@ pub struct InitializeBet<'info> {
     pub market_state: Account<'info, MarketState>,
     #[account(
         init_if_needed,
-        seeds=[payer.key().as_ref(),market_name.as_bytes(),bet_title.as_bytes()], //Think of seeds to find the particular bet account,
+        seeds=[market_name.as_bytes(),bet_title.as_bytes(),bet_description.as_bytes()], //Think of seeds to find the particular bet account,
         payer=payer,
         space=8+size_of::<Bet>(),
         bump

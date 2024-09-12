@@ -163,26 +163,54 @@ console.log(marketAuthPDA.toBase58());
     )
   console.log(marketStatePDA.toBase58())
     const balance=connection.getBalance(payer.publicKey);
-    try{
-      const tx=await program.methods.createBet("Sports","Cricket","Ind Vs Pak").accounts({
-        marketAuthority:marketAuthPDA,
-        marketState:marketStatePDA,
-        betState:betPDA,
-        tokenMint:mintPDA,
-        payer:payer.publicKey,
-        rent:SYSVAR_RENT_PUBKEY,
-        tokenProgram:TOKEN_2022_PROGRAM_ID,
-        systemProgram:SystemProgram.programId
-      }).signers([payer]).rpc();
-      console.log(tx);
-    }catch(err){
-      console.log(err);
-     } 
-    console.log("Logging");
-    // const betAccount=await connection.getAccountInfo(betPDA);
+    // try{
+    //   const tx=await program.methods.createBet("Sports","Cricket","Ind Vs Pak").accounts({
+    //     marketAuthority:marketAuthPDA,
+    //     marketState:marketStatePDA,
+    //     betState:betPDA,
+    //     tokenMint:mintPDA,
+    //     payer:payer.publicKey,
+    //     rent:SYSVAR_RENT_PUBKEY,
+    //     tokenProgram:TOKEN_2022_PROGRAM_ID,
+    //     systemProgram:SystemProgram.programId
+    //   }).signers([payer]).rpc();
+    //   console.log(tx);
+    // }catch(err){
+    //   console.log(err);
+    //  } 
+    // console.log("Logging");
+   enum BetStatus {
+      Active,
+      BettingClose,
+      Resolved,
+      Cancelled,
+  }
     const betAccountState=await program.account.bet.fetch(betPDA);
-     console.log(betAccountState);
-
+    console.log(betAccountState);
+     assert(betAccountState.betMarket=="Sports");
+     console.log("passed");
+     assert(betAccountState.betOutcomes=[true,false]);
+     console.log("passed");
+     assert(betAccountState.betDescription==="Ind Vs Pak");
+     console.log("passed");
+    //  assert(betAccountState.betCreator==payerPublicKey);
+    //  console.log("passed");
+    console.log(betAccountState.betId.toNumber());
+     assert(betAccountState.betId.toNumber()==2);
+     console.log("passed");
+     assert(betAccountState.betTitle==="Cricket");
+     console.log("passed");
+     assert(betAccountState.marketAuthority.toBase58()==marketAuthPDA.toBase58());
+     console.log("passed");
+     assert(betAccountState.users[0].toBase58()===payerPublicKey.toBase58());
+     console.log("passed");
+    //  assert(betAccountState.betStatus==BetStatus)
+    assert(betAccountState.totalStake.toNumber()===0);
+    console.log("passed");
+    assert(betAccountState.tokenMint.toBase58()===mintPDA.toBase58());
+    console.log("passed");
+     const betAccount=await connection.getAccountInfo(betPDA);
+     console.log(betAccount);
    })
    
 });
